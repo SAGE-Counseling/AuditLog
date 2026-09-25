@@ -5,9 +5,13 @@
     "license": "MIT",
     "keywords": ["sage-counseling", "audit-log", "compliance", "hipaa"],
     "require": {
-        "php": "^8.1"
+        "php": "^8.2",
+        "illuminate/console": "^10.0|^11.0|^12.0",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^10.0|^11.0|^12.0"
     },
     "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
         "phpunit/phpunit": "^10.0"
     },
     "autoload": {
@@ -20,6 +24,20 @@
             "SageCounseling\\AuditLog\\Tests\\": "tests/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SageCounseling\\AuditLog\\AuditLogServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "policy": {
+            "advisories": {
+                "block": false
+            }
+        }
+    }
 }

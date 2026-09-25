@@ -8,21 +8,19 @@ or decisions actually get resolved.
 
 ## Project type
 
-Standalone PHP Composer package (not yet scaffolded). Will hold a HIPAA-oriented audit-logging module —
-access-audit (who looked at what, and why), extracted from `compliance-portal`'s `app/AuditLog/*` — see
-`docs/audit-log-handoff.md` for the full plan.
+Standalone PHP Composer package holding a HIPAA-oriented audit-logging module — access-audit (who looked at
+what, and why), ported from `compliance-portal`'s `app/AuditLog/*`. See `docs/audit-log-handoff.md` for the
+full plan and `docs/adr/` for decisions made during the port.
 
 ## Framework and versions
 
-Laravel package conventions expected (PSR-4 autoload, service provider, publishable config/migration), since
-the source being ported (`AuditLogEntry` as an Eloquent model, `Handler::render()` integration) is Laravel-
-shaped. Target PHP/Laravel version range not yet decided — see `docs/audit-log-handoff.md`, open question
-"Versioning independence," and confirm against whatever `compliance-portal` and `RPS` (the two intended
-consumers) currently run before scaffolding.
+A real Laravel package: PSR-4 autoload, `AuditLogServiceProvider` (container bindings, publishable
+config/migrations, command registration), `AuditLogEntry` as an Eloquent model. Targets PHP ^8.2,
+`illuminate/*` ^10|^11|^12 (compliance-portal runs Laravel 10, RPS runs Laravel 12 — both PHP ^8.2).
 
 ## Tooling
 
-- Test command: not yet configured (`vendor/bin/phpunit` expected once scaffolded)
+- Test command: `vendor/bin/phpunit` (Testbench-backed; see `tests/TestCase.php`)
 - Formatter: not configured
 - Static analysis: not configured
 
@@ -45,10 +43,12 @@ environment facts.
 
 ## Databases
 
-None owned by this repo yet. Per `docs/audit-log-handoff.md` open question #2, the package is expected to
-ship a publishable migration for `AuditLogEntry`'s table (standard practice for a Laravel package) rather
-than requiring each consuming app to define the schema itself — confirm this is still the decision before
-writing the migration, since it's listed as open, not settled.
+The package ships 2 publishable migrations (`audit_logs`, `audit_log_archives`) rather than requiring each
+consuming app to define the schema itself. Connection names are config-driven
+(`audit-log.connection`/`audit-log.migration_connection`), not hardcoded — see
+`docs/adr/0001-configurable-connections-and-actor-resolution.md`. Tests run both against the same in-memory
+sqlite connection; verifying the production privilege-separation (an actual INSERT-only DB role) is each
+consuming app's responsibility, not this package's.
 
 ## Languages and Frameworks
 
