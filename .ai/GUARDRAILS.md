@@ -65,9 +65,9 @@ These rules are always in effect unless a task explicitly overrides them.
 
 ## PHP/Laravel guardrails (PHP projects only)
 
-This package doesn't exist as a scaffolded Composer package yet — `docs/audit-log-handoff.md` describes
-the plan: port `app/AuditLog/*` out of `compliance-portal` into a standalone PSR-4 package (`sage-counseling/audit-log`
-or similar), namespace `SageCounseling\AuditLog\*`, with PHPUnit for tests. Once scaffolded:
+This package is scaffolded and its core module ported: `sage-counseling/audit-log`, namespace
+`SageCounseling\AuditLog\*`, PHPUnit + Testbench for tests. Conventions below apply now, not just once
+scaffolded:
 
 - Follow framework conventions before inventing abstractions.
 - Validation: keep validation logic (e.g. `ResourceTypeAllowList` checks, `PurposeOfUseResolver`) in
@@ -87,8 +87,9 @@ or similar), namespace `SageCounseling\AuditLog\*`, with PHPUnit for tests. Once
 
 ## Database safety
 
-- This package has no database of its own to protect yet (no scaffolded app, no seeded local DB) — the risk
-  applies once it's wired into `compliance-portal` or `RPS` as a consumer. At that point: a Laravel package's
+- This package has no deployed database of its own (only Testbench's disposable sqlite `:memory:` in tests) —
+  the real-world risk applies once it's wired into `compliance-portal` or `RPS` as a consumer. At that point: a
+  Laravel package's
   PHPUnit tests are isolated via Orchestra Testbench, which boots its own in-memory sqlite connection per
   test run (typically configured in `tests/TestCase.php`'s `getEnvironmentSetUp()`) — that isolation only
   applies inside the test runner, not to a `php artisan tinker` or raw `php artisan migrate:fresh` invocation
@@ -122,6 +123,5 @@ or similar), namespace `SageCounseling\AuditLog\*`, with PHPUnit for tests. Once
 
 ## Version compatibility
 
-Not yet settled — the target PHP/Laravel version range should be decided when the package is scaffolded
-(matching whatever `compliance-portal` and `RPS` currently run, since both are consumers). Don't assume a
-version; confirm from `.ai/CONTEXT.md` once it's filled in, or ask.
+PHP ^8.2, `illuminate/*` ^10|^11|^12 — matches `compliance-portal` (Laravel 10) and `RPS` (Laravel 12), the two
+intended consumers. See `.ai/CONTEXT.md`.
