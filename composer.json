@@ -1,0 +1,25 @@
+{
+    "name": "sage-counseling/audit-log",
+    "description": "HIPAA-oriented access-audit logging package for SAGE Counseling apps",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["sage-counseling", "audit-log", "compliance", "hipaa"],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SageCounseling\\AuditLog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SageCounseling\\AuditLog\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
