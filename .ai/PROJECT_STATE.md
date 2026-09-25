@@ -7,19 +7,25 @@ one-time task).
 
 ## Current status
 
-Pre-code. This repo holds the handoff plan (`docs/audit-log-handoff.md`) for extracting the `AuditLog`
-module out of `compliance-portal`'s `app/AuditLog/*` into a standalone Composer package. No package
-scaffold, no source code, no tests exist yet.
+Composer package skeleton is scaffolded (issue #1). No `AuditLog` source has been ported from
+`compliance-portal` yet — `src/` is empty. Handoff plan lives in `docs/audit-log-handoff.md`.
 
 ## What's working
 
 - Repo is connected to GitHub (`SAGE-Counseling/AuditLog`, default branch `master`).
 - Agent config scaffolded: issue tracker, triage labels, and domain-docs conventions
   (`docs/agents/*.md`), plus this `.ai/` protocol layer.
+- Composer package skeleton: `composer.json` (`sage-counseling/audit-log`, PSR-4
+  `SageCounseling\AuditLog\` → `src/`), `phpunit.xml`, `.github/workflows/tests.yml` CI, `README.md` —
+  mirrors `sage-counseling/helpers`' setup. Verified locally: `composer install` succeeds, `vendor/bin/phpunit`
+  runs clean (no tests yet, since no source exists).
 
 ## What's broken / blocked
 
-- No Composer package skeleton yet (no `composer.json`, no PSR-4 autoload, no PHPUnit setup).
+- No source code or tests exist yet — `src/` and `tests/` are empty placeholders.
+- Whether this package needs a framework dependency (e.g. `illuminate/database` for the `AuditLogEntry`
+  Eloquent model) is unresolved — deliberately left out of `composer.json` until the porting step actually
+  needs it, per this repo's "resolve open questions as they're hit" approach.
 - Several open design questions block a clean extraction — see
   `docs/audit-log-handoff.md`'s "Open questions to resolve before/during extraction" section (relationship
   to `bi-reflector`'s `HasPhiAuditLogging`, migration ownership, resource-type registration API,
