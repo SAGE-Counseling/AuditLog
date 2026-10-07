@@ -8,9 +8,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+
     strategy:
+      fail-fast: false
       matrix:
-        php: ['8.2', '8.3']
+        include:
+          - { php: '8.2', laravel: '10', testbench: '8.*' }
+          - { php: '8.2', laravel: '11', testbench: '9.*' }
+          - { php: '8.3', laravel: '11', testbench: '9.*' }
+          - { php: '8.2', laravel: '12', testbench: '10.*' }
+          - { php: '8.4', laravel: '12', testbench: '10.*' }
+          - { php: '8.3', laravel: '13', testbench: '11.*' }
+          - { php: '8.4', laravel: '13', testbench: '11.*' }
+          - { php: '8.5', laravel: '13', testbench: '11.*' }
 
     steps:
       - uses: actions/checkout@v4
@@ -21,8 +32,11 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
 
+      # Testbench majors map 1:1 to Laravel majors, so pinning it selects the Laravel version under test.
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: |
+          composer require "orchestra/testbench:${{ matrix.testbench }}" --dev --no-update
+          composer update --prefer-dist --no-progress --with-all-dependencies
 
       - name: Run tests
         run: vendor/bin/phpunit
