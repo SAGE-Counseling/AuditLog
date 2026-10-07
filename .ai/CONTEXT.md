@@ -16,7 +16,8 @@ full plan and `docs/adr/` for decisions made during the port.
 
 A real Laravel package: PSR-4 autoload, `AuditLogServiceProvider` (container bindings, publishable
 config/migrations, command registration), `AuditLogEntry` as an Eloquent model. Targets PHP ^8.2,
-`illuminate/*` ^10|^11|^12 (compliance-portal runs Laravel 10, RPS runs Laravel 12 — both PHP ^8.2).
+`illuminate/*` ^10|^11|^12|^13 (compliance-portal runs Laravel 10, RPS runs Laravel 12 and is moving to 13;
+Laravel 13 needs PHP 8.3+).
 
 ## Tooling
 

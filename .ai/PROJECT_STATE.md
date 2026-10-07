@@ -16,8 +16,11 @@ that's handoff doc steps 3–4 (compliance-portal, then RPS), not started.
 - Repo is connected to GitHub (`SAGE-Counseling/AuditLog`, default branch `master`).
 - Agent config scaffolded: issue tracker, triage labels, and domain-docs conventions
   (`docs/agents/*.md`), plus this `.ai/` protocol layer.
-- Composer package skeleton (issue #1): PSR-4 `SageCounseling\AuditLog\` → `src/`, PHPUnit 10 +
-  `orchestra/testbench` 9, `.github/workflows/tests.yml` CI (PHP 8.2/8.3), `README.md`.
+- Composer package skeleton (issue #1): PSR-4 `SageCounseling\AuditLog\` → `src/`, `README.md`.
+- Laravel 13 support (issue #5): `illuminate/*` ^10–^13, Testbench ^8–^11, PHPUnit ^10.5|^11.5|^12.5. CI
+  (`.github/workflows/tests.yml`) runs one job per Laravel major × PHP version and picks the Laravel major by
+  pinning the matching Testbench major (8→L10 … 11→L13). Laravel 13 needs PHP 8.3+, so PHP 8.2 consumers still
+  resolve older majors.
 - Full module ported (issue #3): `AuditLogger`, `Actor`, `NetworkContext`, `ActionType`, `PurposeOfUse(Resolver)`,
   `ResourceTypeAllowList`, `InvalidResourceTypeException`, `DeniedAccessBackstop`, `Models\AuditLogEntry`,
   `Console\Commands\ArchiveAuditLogs`, `AuditLogServiceProvider`, publishable `config/audit-log.php`, 2

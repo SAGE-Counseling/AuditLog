@@ -123,5 +123,5 @@ scaffolded:
 
 ## Version compatibility
 
-PHP ^8.2, `illuminate/*` ^10|^11|^12 — matches `compliance-portal` (Laravel 10) and `RPS` (Laravel 12), the two
-intended consumers. See `.ai/CONTEXT.md`.
+PHP ^8.2, `illuminate/*` ^10|^11|^12|^13 — matches `compliance-portal` (Laravel 10) and `RPS` (Laravel 12, moving
+to 13), the two intended consumers. Laravel 13 needs PHP 8.3+. See `.ai/CONTEXT.md`.
